@@ -1,0 +1,224 @@
+a {
+    text-decoration: none;
+    font-size: 16px;
+}
+
+header {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+.container {
+    margin: auto;
+    width: 1200px;
+    min-height: 600px;
+    border: 3px solid red;
+}
+
+.nav {
+    width: 99%;
+    height: 60px;
+    margin: auto;
+    border: 3px darkcyan double;
+    border-radius: 20px;
+    display: flex;
+    text-align: center;
+}
+
+.main {
+    display: flex;
+    width: 99%;
+    min-height: 450px;
+    margin: auto;
+    border: 3px darkred solid;
+}
+
+.aside {
+    width: 25%;
+    border: 3px double black;
+    min-height: inherit;
+}
+
+.main-screen {
+    margin-left: 10px;
+    width: 75%;
+    border: 3px double black;
+}
+
+.info {
+    text-align: center;
+}
+
+.users {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: coral;
+    margin: 10px 30px;
+}
+
+.users-btn {
+    margin: 0 20px;
+    width: 70px;
+    height: 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.update-btn {
+    border: 2px black double;
+    margin: 20px 20px;
+    width: 150px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: rgb(87, 230, 251);
+    color: black;
+    box-shadow: 4px 2px grey;
+    font-weight: bolder;
+}
+
+.update-btn:active {
+    border-radius: 15px;
+    background-color: rgb(30, 196, 222);
+    color: red;
+    box-shadow: 6px 3px grey;
+    font-weight: bolder;
+
+}
+
+.submit-btn {
+    width: 150px;
+    height: 40px;
+    color: blue;
+    background-color: coral;
+    font-weight: bolder;
+    border-radius: 30px;
+    margin-left: 100px;
+    font-weight: bolder;
+}
+
+.log-btn {
+    border: 2px black double;
+    margin: 20px 20px;
+    width: 100px;
+    height: 24px;
+    border-radius: 10px;
+    background-color: rgb(87, 230, 251);
+    color: black;
+    box-shadow: 4px 2px grey;
+    font-weight: bolder;
+}
+
+.log-btn:active {
+    border-radius: 15px;
+    background-color: rgb(30, 196, 222);
+    color: red;
+    box-shadow: 6px 3px grey;
+    font-weight: bolder;
+
+}
+
+.room-btn {
+    border: 2px black double;
+    margin: 5px 45px;
+    width: 150px;
+    height: 25px;
+    border-radius: 12px;
+    background-color: rgb(87, 230, 251);
+    color: black;
+    box-shadow: 4px 2px grey;
+    font-weight: bolder;
+}
+
+.room-btn:active {
+    border-radius: 15px;
+    background-color: rgb(30, 196, 222);
+    color: red;
+    box-shadow: 6px 3px grey;
+    font-weight: bolder;
+}
+
+.create-room-btn {
+    border: 2px black double;
+    margin: 10px auto;
+    width: 150px;
+    height: 20px;
+    border-radius: 10px;
+    background-color: rgb(87, 230, 251);
+    color: black;
+    box-shadow: 4px 2px grey;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.create-room-btn:active {
+    border-radius: 15px;
+    background-color: rgb(30, 196, 222);
+    color: red;
+    box-shadow: 6px 3px grey;
+    font-weight: bolder;
+}
+
+.delete-room-btn {
+    display: block;
+    border: 2px black double;
+    margin: 10px auto;
+    width: 150px;
+    height: 25px;
+    border-radius: 10px;
+    background-color: rgb(87, 230, 251);
+    color: black;
+    box-shadow: 4px 2px grey;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.delete-room-btn:active {
+    border-radius: 15px;
+    background-color: rgb(30, 196, 222);
+    color: red;
+    box-shadow: 6px 3px grey;
+    font-weight: bolder;
+}
+
+.author {
+    margin: 20px 0 0 20px;
+}
+
+.avatar {
+    height: 30px;
+    width: 30px;
+    border-radius: 45%;
+    margin: 15px 20px 0 10px;
+}
+
+.rooms {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: coral;
+    margin: 20px 30px 0 30px;
+}
+
+form {
+    display: block;
+}
+
+label {
+    display: block;
+    margin: 40px 350px;
+}
+
+input {
+    margin: 0 30px 0 30px;
+}
+
+.current-user {
+    margin: 20px 20px;
+}
