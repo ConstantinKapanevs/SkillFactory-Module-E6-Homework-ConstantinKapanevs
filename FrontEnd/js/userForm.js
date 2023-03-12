@@ -38,6 +38,7 @@ let updateUser = function (e) {
 
     request.open('put', `${urlChatUsers}/${currentUserId}`, true);
     request.setRequestHeader("Content-type", "application/json");
+    // request.setRequestHeader("Content-type", "multipart/form-data");    
     request.send(body);
 
     request.onload = function () {

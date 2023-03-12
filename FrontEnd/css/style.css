@@ -11,6 +11,10 @@ h2 {
     text-align: center;
 }
 
+button {
+    margin-left: 10px;
+}
+
 .container {
     margin: auto;
     width: 1200px;
@@ -54,7 +58,7 @@ h2 {
 
 .users {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     text-align: center;
     font-size: 18px;
     font-weight: bold;
@@ -221,4 +225,42 @@ input {
 
 .current-user {
     margin: 20px 20px;
+}
+
+.message-output {
+    height: 90%;
+}
+
+.message-form {
+    height: 10%;
+    display: inline;
+}
+
+.message-input {
+    display: inline;
+}
+
+.message-field {
+    width: 600px;
+}
+
+.message-btn {
+    border: 2px black double;
+    margin: 10px auto;
+    width: 150px;
+    height: 25px;
+    border-radius: 10px;
+    background-color: rgb(87, 230, 251);
+    color: black;
+    box-shadow: 4px 2px grey;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.message-btn:active {
+    border-radius: 15px;
+    background-color: rgb(30, 196, 222);
+    color: red;
+    box-shadow: 6px 3px grey;
+    font-weight: bolder;
 }

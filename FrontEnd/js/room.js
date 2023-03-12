@@ -10,54 +10,40 @@ const addGuestButton = document.querySelector('.add-room-user-btn');
 // const serverUrl = "wss://socketsbay.com/wss/v2/1/demo/";
 
 
-let getCurrentUser = function () {
+let getCurrentAuthor = function () {
+    let authorRequest = new XMLHttpRequest();
+    authorRequest.open('get', urlRooms + '/' + window.localStorage.getItem('currentRoomId'), true);
+    authorRequest.send();
+    authorRequest.onload = function () {
+        let myAuthor = JSON.parse(authorRequest.response).author
+        window.localStorage.setItem('currentAuthor', myAuthor)
+    }
+
     const request = new XMLHttpRequest();
     request.open('get', urlChatUsers, true);
     request.send();
 
     request.onload = function () {
         let myData = JSON.parse(request.response);
-        let currentUser = myData[0]['name']['username'];
-        let currentUserAvatar = myData[0]['avatar'];
-        let currentUserElement = document.createElement('div');
-        let currentUserAvatarElement = document.createElement('img');
-        currentUserElement.setAttribute('class', 'author');
-        currentUserAvatarElement.setAttribute('class', 'avatar');
-        currentUserAvatarElement.setAttribute('src', currentUserAvatar);
-        currentUserElement.innerHTML = `Автор чата: ${currentUser}`;
-        nav.prepend(currentUserAvatarElement);
-        nav.prepend(currentUserElement);
-    }
-}
 
-let getAllUsers = function () {
-    // Очистка боковой панели от списка пользователей
-    document.querySelectorAll('.users').forEach(elem => elem.remove())
-    const aside = document.querySelector('.aside')
-
-    let request = new XMLHttpRequest();
-    request.open('get', urlChatUsers, true)
-    request.send()
-
-    request.onload = function () {
-        let myData = JSON.parse(request.response);
-
-        for (let i of myData) {
-            if (myData.indexOf(i) != 0) {
-                let chatUser = i['name'].username;
-                let userElement = document.createElement('div');
-                let addUserButton = document.createElement('button');
-                userElement.setAttribute('class', 'users');
-                addUserButton.className = 'add-users-btn';
-                addUserButton.setAttribute('onclick', 'addUser(event)')
-                userElement.innerHTML = chatUser;
-                addUserButton.innerHTML = '+';
-                aside.appendChild(userElement);
-                userElement.appendChild(addUserButton);
+        for (i of myData) {
+            if (i['id'] == window.localStorage.getItem('currentAuthor')) {
+                let currentAuthor = i;
+                let currentUser = currentAuthor['name']['username'];
+                let currentUserAvatar = currentAuthor['avatar'];
+                let currentUserElement = document.createElement('div');
+                let currentUserAvatarElement = document.createElement('img');
+                currentUserElement.setAttribute('class', 'author');
+                currentUserAvatarElement.setAttribute('class', 'avatar');
+                currentUserAvatarElement.setAttribute('src', currentUserAvatar);
+                currentUserElement.innerHTML = `Автор чата: ${currentUser}`;
+                nav.prepend(currentUserAvatarElement);
+                nav.prepend(currentUserElement);
             }
         }
     }
 }
+
 
 const getRoomUsers = function () {
     let userRequest = new XMLHttpRequest();
@@ -67,15 +53,13 @@ const getRoomUsers = function () {
     userRequest.onload = function () {
         let myData = JSON.parse(userRequest.response);
         let currentChatUsers = myData.users;
-
         nameRequest = new XMLHttpRequest();
         nameRequest.open('get', urlChatUsers, true)
         nameRequest.send();
         nameRequest.onload = function () {
             myNames = JSON.parse(nameRequest.response);
             for (i of myNames) {
-                if (currentChatUsers.includes(i['id'])) {
-                    console.log(i['name']['username'])
+                if (currentChatUsers.includes(i['id']) && i['id'] != window.localStorage.getItem('currentAuthor')) {
                     let userElement = document.createElement('div');
                     let removeUserButton = document.createElement('button');
                     let messageUserButton = document.createElement('button');
@@ -92,13 +76,14 @@ const getRoomUsers = function () {
                     userElement.appendChild(removeUserButton);
                     userElement.appendChild(messageUserButton);
                 } else {
-                    if (myNames.indexOf(i) != 0) {
+                    if (i['id'] != window.localStorage.getItem('currentAuthor')) {
                         let chatUser = i['name'].username;
                         let userElement = document.createElement('div');
                         let addUserButton = document.createElement('button');
                         userElement.setAttribute('class', 'users');
                         addUserButton.className = 'add-users-btn';
-                        addUserButton.setAttribute('onclick', 'addUser(event)')
+                        addUserButton.setAttribute('id', i['id'])
+                        addUserButton.setAttribute('onclick', 'addGuest(event)')
                         userElement.innerHTML = chatUser;
                         addUserButton.innerHTML = '+';
                         aside.appendChild(userElement);
@@ -118,13 +103,32 @@ const deleteChat = function () {
         window.location.href = "/html/index.html"
     }
 }
+// TODO
+const addGuest = function (event) {
+    let buttonId = event.currentTarget.id;
 
-const addGuest = function () {
-    let request = new XMLHttpRequest();
-    request.open('put', urlRooms + '/' + window.localStorage.getItem('currentRoomId'), true);
-    request.send();
-    request.onload = function () {
-        window.location.href = "/html/index.html"
+    let requestRoom = new XMLHttpRequest();
+    requestRoom.open('get', urlRooms + '/' + window.localStorage.getItem('currentRoomId'), true);
+    requestRoom.send();
+    requestRoom.onload = function () {
+        let usersData = requestRoom.response;
+        usersData = JSON.parse(usersData);
+        let usersList = usersData['users'];
+        usersList.push(buttonId)
+
+        let requestRoomUpdate = new XMLHttpRequest();
+        requestRoomUpdate.open('put', urlRooms + '/' + window.localStorage.getItem('currentRoomId'), true);
+        body = {
+            "name": window.localStorage.getItem('currentRoomName'),
+            "author": window.localStorage.getItem('currentUser'),
+            "users": usersList
+        }
+        body = JSON.stringify(body);
+        requestRoomUpdate.setRequestHeader("Content-type", "application/json");
+        requestRoomUpdate.send(body);
+        requestRoomUpdate.onload = function () {
+            window.location.href = "/html/room.html"
+        }
     }
 }
 const messageUser = function (event) {
@@ -140,7 +144,6 @@ const removeUser = function (event) {
         let usersData = requestRoom.response;
         usersData = JSON.parse(usersData);
         let usersList = usersData['users'];
-
         let requestRoomUpdate = new XMLHttpRequest();
         requestRoomUpdate.open('put', urlRooms + '/' + window.localStorage.getItem('currentRoomId'), true);
         let newUsersList = usersList.filter(function (item) {
@@ -151,19 +154,18 @@ const removeUser = function (event) {
             "name": window.localStorage.getItem('currentRoomName'),
             "author": window.localStorage.getItem('currentUser'),
             "users": newUsersList
-
         }
-        console.log(body)
-
-
+        body = JSON.stringify(body);
+        requestRoomUpdate.setRequestHeader("Content-type", "application/json");
+        requestRoomUpdate.send(body);
+        requestRoomUpdate.onload = function () {
+            window.location.href = "/html/room.html"
+        }
     }
-
-
-
 }
 
 let getData = function () {
-    getCurrentUser();
+    getCurrentAuthor();
     getRoomUsers();
 
 }

@@ -41,11 +41,10 @@ class RoomView(generics.RetrieveUpdateDestroyAPIView):
 
     def put(self, request, pk):
         room = self.get_object()
-        guest = request.data['users']
-        room.users.add(guest)
+        guests = request.data['users']
+        room.users.set(guests)
         room.save()
         return Response({'message': 'Some guests are changed'})
-
 
 
 class AllMessagesView(generics.ListCreateAPIView):
