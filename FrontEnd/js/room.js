@@ -6,8 +6,8 @@ const header = document.querySelector('h2');
 const deleteButton = document.querySelector('.delete-room-btn');
 const addGuestButton = document.querySelector('.add-room-user-btn');
 
-
-// const serverUrl = "wss://socketsbay.com/wss/v2/1/demo/";
+const socketUrl = 'ws://127.0.0.1:8000/ws/chat/';
+const chatSocket = new WebSocket(socketUrl);
 
 
 let getCurrentAuthor = function () {
@@ -43,7 +43,6 @@ let getCurrentAuthor = function () {
         }
     }
 }
-
 
 const getRoomUsers = function () {
     let userRequest = new XMLHttpRequest();
@@ -103,7 +102,7 @@ const deleteChat = function () {
         window.location.href = "/html/index.html"
     }
 }
-// TODO
+
 const addGuest = function (event) {
     let buttonId = event.currentTarget.id;
 
@@ -131,6 +130,7 @@ const addGuest = function (event) {
         }
     }
 }
+
 const messageUser = function (event) {
     window.localStorage.setItem('messageTarget', event.currentTarget.parentElement.firstChild.textContent);
 }
@@ -163,6 +163,25 @@ const removeUser = function (event) {
         }
     }
 }
+
+const messageBtn = document.querySelector('.message-btn');
+messageBtn.onclick = function () {
+    const messageData = document.querySelector('.message-field').value;
+
+    chatSocket.send(JSON.stringify({ "message": messageData }))
+}
+
+chatSocket.addEventListener('message', function (e) {
+    const messageOutput = document.getElementById('message-output');
+    const messageElement = document.createElement('div')
+    const message = JSON.parse(e.data);
+    console.log(message['message'])
+    messageElement.textContent = `Для ${window.localStorage.getItem('messageTarget')}: ${message['message']}`;
+    window.localStorage.setItem('messageTarget', 'Всех');
+    document.querySelector('.message-field').value = '';
+    messageOutput.appendChild(messageElement);
+
+})
 
 let getData = function () {
     getCurrentAuthor();

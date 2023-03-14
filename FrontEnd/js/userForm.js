@@ -29,16 +29,18 @@ let updateUser = function (e) {
     let myForm = new FormData(userForm);
     let newName = myForm.get('name');
     let newAvatar = myForm.get('avatar').name;
+    console.log(myForm.get('avatar'))
+
+
+
     let body = {
         "name": {
             "username": newName
         }, "avatar": newAvatar
     }
     body = JSON.stringify(body);
-
     request.open('put', `${urlChatUsers}/${currentUserId}`, true);
     request.setRequestHeader("Content-type", "application/json");
-    // request.setRequestHeader("Content-type", "multipart/form-data");    
     request.send(body);
 
     request.onload = function () {

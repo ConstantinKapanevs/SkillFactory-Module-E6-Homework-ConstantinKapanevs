@@ -6,9 +6,7 @@ const urlMessages = "http://127.0.0.1:8000/api/messages"
 
 const aside = document.querySelector('.aside');
 const nav = document.querySelector('.nav');
-window.localStorage.setItem('messageTarget', '')
-
-
+window.localStorage.setItem('messageTarget', 'Всех')
 
 
 let getCurrentUser = function () {

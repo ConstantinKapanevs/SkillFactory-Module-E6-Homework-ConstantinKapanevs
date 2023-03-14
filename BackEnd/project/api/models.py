@@ -5,7 +5,7 @@ from django.db import models
 class ChatUser(models.Model):
     name = models.OneToOneField(
         User, on_delete=models.CASCADE, verbose_name='Пользователь')
-    avatar = models.ImageField(blank=True, verbose_name='Аватар')
+    avatar = models.ImageField(upload_to='media/', blank=True, verbose_name='Аватар')
 
     def __str__(self) -> str:
         return f'{self.name.username}'
